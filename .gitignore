@@ -92,3 +92,7 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+#debug
+*.jpg
+*.png
