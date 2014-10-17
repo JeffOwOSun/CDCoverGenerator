@@ -1,5 +1,6 @@
+from __future__ import division
 import sys
-import Image
+from PIL import Image
 import time
 from os.path import splitext
 
@@ -20,12 +21,15 @@ def main():
         
         flagResized = False
         img.width, img.height = img.size
+        if img.width>1.8*img.height:
+            img = img.crop((img.width - img.height, 0, img.width, img.height))
+            img.width, img.height = img.size
+            
         if img.width>1000 or img.height >1000:
-            whRatio = img.width/img.height
-            outWidth = 1000 if whRatio >=1 else 1000*whRatio
-            outHeight = 1000 if whRatio <=1 else 1000/whRatio
+            ratio = min(1000/img.width, 1000/img.height)
+            size = ratio*img.width, ratio*img.height
             try:
-                img=img.resize((outWidth, outHeight))
+                img.thumbnail(size, Image.ANTIALIAS)
             except Exception as e:
                 print e
             flagResized = True
